@@ -68,9 +68,9 @@ function M.load()
   hl("NeoTreeWinSeparator NeoTreeVertSplit NvimTreeVertSplit", p.border, p.panel_background)
   hl("IblIndent IndentBlanklineChar", p.indent)
   hl("IblScope", p.indent_scope)
-  for suffix, key in pairs({ Error = "error", Warn = "warning", Info = "info", Hint = "hint" }) do
-    hl("Diagnostic" .. suffix .. " DiagnosticVirtualText" .. suffix .. " DiagnosticSign" .. suffix, p[key])
-    hl("DiagnosticUnderline" .. suffix, nil, nil, { undercurl = true, sp = p[key] })
+  for _, suffix in ipairs({ "Error", "Warn", "Info", "Hint" }) do
+    hl("Diagnostic" .. suffix .. " DiagnosticVirtualText" .. suffix .. " DiagnosticSign" .. suffix .. " DiagnosticFloating" .. suffix .. " DiagnosticVirtualLines" .. suffix, p.diagnostic)
+    hl("DiagnosticUnderline" .. suffix, nil, nil, { undercurl = true, sp = p.diagnostic })
   end
   for group, key in pairs({ GitSignsAdd = "created", GitSignsChange = "modified", GitSignsDelete = "deleted" }) do
     hl(group, p[key])

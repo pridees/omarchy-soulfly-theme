@@ -19,7 +19,12 @@ for _, g in ipairs({'Type','@type.builtin','@lsp.type.interface','@lsp.type.clas
 color('Function','fg','#72bfff')
 for _, g in ipairs({'zigProperty','@property','@variable.member','@lsp.type.property','@lsp.type.field'}) do color(g,'fg','#abc5d0') end
 color('Comment','fg','#8a8e85')
-color('LspInlayHint','fg','#7d817a')
+color('LspInlayHint','fg','#997d5c')
+for _, kind in ipairs({'Error','Warn','Info','Hint'}) do
+  color('Diagnostic' .. kind,'fg','#997d5c')
+  color('DiagnosticVirtualText' .. kind,'fg','#997d5c')
+  color('DiagnosticUnderline' .. kind,'sp','#997d5c')
+end
 color('Normal','bg','#090908')
 color('NormalFloat','bg','#191917')
 color('NeoTreeNormal','bg','#0f0f0e')
