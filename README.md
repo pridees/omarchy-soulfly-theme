@@ -21,7 +21,7 @@ omarchy theme install https://github.com/pridees/omarchy-soulfly-theme.git
 
 | Файл | Приложение |
 | --- | --- |
-| `nvim/soulfly.lua` | Neovim / LazyVim: синхронизация с палитрой Zed |
+| `nvim/soulfly.lua` | Neovim / LazyVim: адаптер самостоятельной colorscheme Soulfly |
 | `zed.json` | Zed: интерфейс, синтаксис, диагностика, терминал |
 | `vscode-theme.json` | VS Code, VSCodium, Cursor через интеграцию Omarchy |
 | `alacritty.toml` | Alacritty |
@@ -82,26 +82,42 @@ Hook заменяет стандартный `theme-set.d/omazed`. Для Soulfl
 
 ## Neovim / LazyVim
 
-По умолчанию Omarchy генерирует Aether из системной палитры. Для совпадения
-с Zed установите отдельную интеграцию из каталога темы:
+Самостоятельная colorscheme **soulfly** с фиксированной палитрой. Не читает
+`zed.json`, не требует Zed, Aether или Omarchy. Стандартная структура Neovim:
+`colors/soulfly.lua`, `lua/soulfly/`, группы Vim syntax, Tree-sitter, LSP,
+диагностика, терминальные ANSI-цвета и оформление основных UI-плагинов.
+
+Установка из каталога репозитория:
+
+```sh
+nvim_theme="$HOME/.local/share/nvim/site/pack/soulfly/start/soulfly"
+mkdir -p "$nvim_theme"
+cp -R nvim/colors nvim/lua nvim/after "$nvim_theme/"
+```
+
+В обычном Neovim добавьте `vim.cmd.colorscheme("soulfly")` в `init.lua`.
+Для **LazyVim с Omarchy** вместо этого установите адаптер:
 
 ```sh
 install -m 644 nvim/soulfly.lua ~/.config/nvim/lua/plugins/soulfly.lua
 ```
 
-Перезапустите Neovim. Интеграция читает активный `zed.json` напрямую: типы,
-интерфейсы, классы, ключевые слова, функции, строки, константы, комментарии,
-подсказки, основные поверхности и ANSI-цвета терминала используют цвета Zed.
-Работает с обычным синтаксисом, Tree-sitter и стандартными LSP semantic tokens.
-В Neovim нет веса шрифта 300, поэтому inlay-подсказки приглушены без жирного начертания.
-Разметка языков и нестандартные группы плагинов могут отличаться между редакторами.
+Перезапустите Neovim. Адаптер выбирает Soulfly только для активной темы Omarchy
+`soulfly` и сохраняет поверхности после стандартного скрипта прозрачности.
+Сама colorscheme работает независимо. Встроенный терминал имеет нейтральный текст,
+inlay-подсказки приглушены без жирного начертания. Направляющие отступов:
+`#191917`, активная область `#25231f`; поддержаны Snacks, IBL и Mini Indentscope.
 
-Интеграция действует только при активной Soulfly и повторно применяет палитру
-после смены colorscheme. Фоны основных панелей восстанавливаются после штатного
-скрипта прозрачности Omarchy, чтобы сохранить иерархию поверхностей.
-Lua из Git-темы Omarchy не загружает автоматически, поэтому установка отдельная.
-Для удаления: удалите `~/.config/nvim/lua/plugins/soulfly.lua` и перезапустите Neovim.
-Проверка соответствия палитры: `nvim --headless -u NONE -i NONE -l scripts/test-neovim.lua`.
+Дополнение `after/syntax/zig.vim` добавляет распознавание функций и имён типов
+к штатной подсветке Zig без Tree-sitter. Это лексическая подсветка; для точной
+семантики используйте Tree-sitter и ZLS. Все ключевые слова — медно-оранжевые,
+типы — лавандовые, функции — голубые, строки — зелёные, константы — золотистые.
+
+Проверка в чистом Neovim, включая реальные Zig-токены:
+`nvim --headless -u NONE -i NONE -l scripts/test-neovim.lua`.
+
+При обновлении повторите копирование файлов. Для удаления уберите установленный
+каталог пакета и адаптер `lua/plugins/soulfly.lua`, затем перезапустите Neovim.
 
 ## Omarchy
 

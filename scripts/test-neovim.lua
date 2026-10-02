@@ -1,43 +1,60 @@
--- Run from the repository root: nvim --headless -u NONE -l scripts/test-neovim.lua
+-- Run from repository root: nvim --headless -u NONE -i NONE -l scripts/test-neovim.lua
 local root = vim.fn.getcwd()
-local source = vim.fn.readfile
-local theme_name = 'soulfly'
-vim.fn.readfile = function(path, ...)
-  if path:match('/current/theme.name$') then return { theme_name } end
-  if path:match('/current/theme/zed.json$') then return source(root .. '/zed.json') end
-  return source(path, ...)
+vim.opt.rtp:prepend(root .. '/nvim')
+vim.opt.rtp:append(root .. '/nvim/after')
+-- A native colorscheme must not read external palette files.
+local readfile = vim.fn.readfile
+vim.fn.readfile = function() error('Unexpected external palette read') end
+vim.cmd.colorscheme('soulfly')
+assert(vim.g.colors_name == 'soulfly')
+vim.fn.readfile = readfile
+local function color(group, field, expected)
+  local actual = vim.api.nvim_get_hl(0, {name=group,link=false})[field]
+  assert(actual == tonumber(expected:sub(2),16), group .. ': ' .. tostring(actual))
 end
-local s = vim.json.decode(table.concat(source(root .. '/zed.json'), '\n')).themes[1].style
-local function flush() vim.wait(30, function() return false end) end
-local function color(group, key, expected)
-  local actual = vim.api.nvim_get_hl(0, { name = group, link = false })[key]
-  assert(actual == tonumber(expected:sub(2), 16), group .. ' ' .. key)
+for _, g in ipairs({'Keyword','Include','zigVarDecl','zigExecution','@keyword','@keyword.import','@keyword.operator','@keyword.type'}) do
+  color(g,'fg','#f49b62')
 end
-dofile(root .. '/nvim/soulfly.lua')[1].config()
-flush()
-for group, token in pairs({
-  Type='type', ['@lsp.type.interface']='type', ['@lsp.type.class']='type',
-  ['@constructor.tsx']='type', ['@type.builtin']='type',
-  ['@keyword.operator']='keyword', ['@keyword.import']='keyword', Include='keyword',
-  ['@keyword.return']='keyword', ['@function.builtin']='function', Function='function',
-  ['@variable.member']='property', String='string', Constant='constant',
-  Comment='comment', LspInlayHint='hint',
-}) do color(group, 'fg', s.syntax[token].color) end
-color('Normal', 'bg', s['editor.background'])
-color('NormalFloat', 'bg', s['elevated_surface.background'])
-color('NeoTreeNormal', 'bg', s['panel.background'])
-assert(vim.g.terminal_color_7 == s['terminal.ansi.white'])
-assert(not vim.api.nvim_get_hl(0, { name='LspInlayHint' }).bold)
--- Restore surfaces after Omarchy's transparency pass.
-vim.api.nvim_exec_autocmds('ColorScheme', {})
-vim.api.nvim_set_hl(0, 'Normal', { fg='#ffffff' })
-flush()
-color('Normal', 'bg', s['editor.background'])
--- Do not repaint another active theme.
-theme_name = 'other'
-vim.api.nvim_set_hl(0, 'Normal', { fg='#123456', bg='#654321' })
-vim.api.nvim_exec_autocmds('ColorScheme', {})
-flush()
-color('Normal', 'fg', '#123456')
-color('Normal', 'bg', '#654321')
-print('PASS: Zed parity, colorscheme reload, transparency ordering and other-theme isolation')
+for _, g in ipairs({'Type','@type.builtin','@lsp.type.interface','@lsp.type.class'}) do color(g,'fg','#c792ff') end
+color('Function','fg','#72bfff')
+color('Comment','fg','#8a8e85')
+color('LspInlayHint','fg','#7d817a')
+color('Normal','bg','#090908')
+color('NormalFloat','bg','#191917')
+color('NeoTreeNormal','bg','#0f0f0e')
+color('SnacksIndent','fg','#191917')
+color('SnacksIndentScope','fg','#25231f')
+assert(vim.g.terminal_color_7 == '#c0bfba')
+-- Exercise the real stock Zig syntax, not just hand-picked highlight groups.
+vim.cmd('filetype plugin on')
+vim.cmd('syntax enable')
+vim.api.nvim_buf_set_lines(0,0,-1,false,{
+  'const Command = @import("command.zig").Command;',
+  'pub fn echo(out: *std.Io.Writer) void {',
+  '    const value = 1;',
+  '    try out.print("hello");',
+  '    return;',
+  '}',
+})
+vim.bo.filetype='zig'
+vim.cmd('syntax sync fromstart')
+local function token(row,text,expected)
+  local line=vim.api.nvim_buf_get_lines(0,row-1,row,false)[1]
+  local col=assert(line:find(text,1,true))
+  local id=vim.fn.synIDtrans(vim.fn.synID(row,col,1))
+  local value=vim.fn.synIDattr(id,'fg#')
+  assert(value==expected, text .. ': ' .. value .. ' (' .. vim.fn.synIDattr(id,'name') .. ')')
+end
+token(1,'const','#f49b62')
+token(1,'Command','#c792ff')
+token(1,'@import','#f49b62')
+token(2,'fn','#f49b62')
+token(2,'echo','#72bfff')
+token(4,'try','#f49b62')
+token(4,'print','#72bfff')
+token(5,'return','#f49b62')
+vim.cmd.colorscheme('habamax')
+assert(vim.g.colors_name=='habamax')
+vim.cmd.colorscheme('soulfly')
+color('SnacksIndentScope','fg','#25231f')
+print('PASS: standalone colorscheme, Zig tokens, LSP roles, surfaces, indent guides and theme switching')
