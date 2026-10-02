@@ -1,0 +1,106 @@
+/* Soulfly Zen UI. Browser chrome only; website content is untouched. */
+:root {
+  color-scheme: dark !important;
+  --zen-primary-color: #ac6766 !important;
+  --zen-branding-bg: #11100f !important;
+  --zen-branding-bg-reverse: #c6beb2 !important;
+  --zen-colors-primary: #211f1b !important;
+  --zen-colors-secondary: #292621 !important;
+  --zen-colors-tertiary: #171614 !important;
+  --zen-colors-hover-bg: #2b2823 !important;
+  --zen-colors-primary-foreground: #c6beb2 !important;
+  --zen-colors-border: #39332b !important;
+  --zen-colors-border-contrast: #39332b !important;
+  --zen-colors-input-bg: #211f1b !important;
+  --zen-dialog-background: #211f1b !important;
+  --zen-urlbar-background: #211f1b !important;
+  --zen-toolbar-element-bg: #211f1b !important;
+  --toolbar-bgcolor: #171614 !important;
+  --toolbar-color: #c6beb2 !important;
+  --toolbox-textcolor: #c6beb2 !important;
+  --lwt-text-color: #c6beb2 !important;
+  --lwt-accent-color: #11100f !important;
+  --tab-selected-bgcolor: #342b24 !important;
+  --tab-selected-textcolor: #ecc18e !important;
+  --toolbar-field-background-color: #211f1b !important;
+  --toolbar-field-color: #c6beb2 !important;
+  --toolbar-field-focus-background-color: #292621 !important;
+  --toolbar-field-focus-color: #ecc18e !important;
+  --toolbar-field-border-color: #39332b !important;
+  --toolbar-field-focus-border-color: #ac6766 !important;
+  --toolbarbutton-hover-background: #2b2823 !important;
+  --toolbarbutton-active-background: #342b24 !important;
+  --panel-background: #211f1b !important;
+  --panel-color: #c6beb2 !important;
+  --panel-border-color: #39332b !important;
+  --arrowpanel-background: #211f1b !important;
+  --arrowpanel-color: #c6beb2 !important;
+  --arrowpanel-border-color: #39332b !important;
+  --arrowpanel-dimmed: #2b2823 !important;
+  --focus-outline-color: #ac6766 !important;
+  --link-color: #ecc18e !important;
+}
+#zen-main-app-wrapper {
+  background: #11100f !important;
+}
+#navigator-toolbox, #TabsToolbar, #nav-bar {
+  background: #171614 !important;
+  color: #c6beb2 !important;
+}
+.tabbrowser-tab:is([selected], [visuallyselected], [multiselected]) .tab-background {
+  background: #342b24 !important;
+  box-shadow: inset 2px 0 #ac6766 !important;
+}
+.tabbrowser-tab[selected] .tab-label { color: #ecc18e !important; }
+.tabbrowser-tab:not([selected]) .tab-label { color: #bfb4a3 !important; }
+#urlbar-background { background: #211f1b !important; border-color: #39332b !important; }
+#urlbar[focused] #urlbar-background { border-color: #ac6766 !important; }
+.urlbarView-row[selected] { background: #342b24 !important; color: #ecc18e !important; }
+
+/* Zen defines these on each workspace, so root overrides alone are insufficient. */
+:root zen-workspace {
+  --tab-background-color-selected: #342b24 !important;
+  --tab-background-color-hover: #27241f !important;
+  --tab-box-shadow-selected: inset 2px 0 #ac6766 !important;
+  --zen-toolbar-element-bg-hover: #27241f !important;
+}
+:root {
+  --zen-folder-behind-bgcolor: #554433 !important;
+  --zen-folder-front-bgcolor: #715c44 !important;
+  --zen-folder-stroke: #ac9371 !important;
+}
+zen-folder > .tab-group-label-container .tab-group-folder-icon svg {
+  filter: none !important;
+  color: #c9b594 !important;
+}
+zen-folder > .tab-group-label-container > label {
+  color: #c9bfad !important;
+}
+/* Resting, hover and selected essentials share the same surface scale. */
+#zen-essentials .tabbrowser-tab .tab-background,
+.tabbrowser-tab[zen-essential] .tab-background {
+  background: #24211d !important;
+  box-shadow: inset 0 0 0 1px #302c26 !important;
+}
+#zen-essentials .tabbrowser-tab:hover .tab-background,
+.tabbrowser-tab[zen-essential]:hover .tab-background {
+  background: #2d2923 !important;
+}
+#zen-essentials .tabbrowser-tab:is([selected], [visuallyselected]) .tab-background,
+.tabbrowser-tab[zen-essential]:is([selected], [visuallyselected]) .tab-background {
+  background: #342b24 !important;
+  box-shadow: inset 0 -2px #ac6766 !important;
+}
+#tabs-newtab-button, #vertical-tabs-newtab-button {
+  background: #211f1b !important;
+  color: #bfb4a3 !important;
+  box-shadow: inset 0 0 0 1px #302c26 !important;
+}
+#tabs-newtab-button:hover, #vertical-tabs-newtab-button:hover {
+  background: #2b2823 !important;
+  color: #ecc18e !important;
+}
+#tabs-newtab-button[in-urlbar] {
+  background: #342b24 !important;
+  box-shadow: inset 2px 0 #ac6766 !important;
+}

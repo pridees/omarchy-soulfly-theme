@@ -1,0 +1,25 @@
+#!/bin/bash
+set -euo pipefail
+
+# Soulfly supplies an IDE-specific palette; other themes use stock Omazed.
+current="$HOME/.local/state/omarchy/current"
+if [[ -f "$current/theme.name" && $(<"$current/theme.name") == soulfly && -f "$current/theme/zed.json" ]]; then
+  destination="$HOME/.config/zed/themes"
+  mkdir -p "$destination"
+  temporary=$(mktemp "$destination/.omazed.XXXXXX")
+  trap 'rm -f "$temporary"' EXIT
+  foreground=$(omarchy-theme-color --file "$current/theme/colors.toml" foreground)
+  jq -e --arg foreground "$foreground" '
+    if (.themes | type) == "array" and (.themes | length) == 1
+       and .themes[0].appearance == "dark" and (.themes[0].style | type) == "object"
+    then .name = "Omazed" | .themes[0].name = "Omazed"
+      | .themes[0].style |= (
+          .["text.accent"] = $foreground | .["icon.accent"] = $foreground
+        )
+    else error("Invalid Soulfly Zed theme") end
+  ' "$current/theme/zed.json" > "$temporary"
+  chmod 644 "$temporary"
+  mv "$temporary" "$destination/omazed.json"
+else
+  omazed set "${1:-}"
+fi
