@@ -1,6 +1,11 @@
 -- Soulfly palette. Standalone values; no Zed or Omarchy dependency.
 return {
   accent = "#ac6766",
+  secondary = "#a89b8a",
+  dimmed = "#a09990",
+  popup_border = "#62564c",
+  selection = "#3a302b",
+  scrollbar = "#756557",
   border = "#20201d",
   created = "#b8d875",
   deleted = "#ee8984",

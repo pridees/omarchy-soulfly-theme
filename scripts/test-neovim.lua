@@ -26,6 +26,32 @@ color('NeoTreeNormal','bg','#0f0f0e')
 color('SnacksIndent','fg','#191917')
 color('SnacksIndentScope','fg','#25231f')
 assert(vim.g.terminal_color_7 == '#c0bfba')
+-- Guard semantic text against accidental reuse of nearly invisible guide colors.
+local function luminance(c)
+  local value = 0
+  for i, weight in ipairs({0.2126, 0.7152, 0.0722}) do
+    local v = math.floor(c / 256 ^ (3-i)) % 256 / 255
+    value = value + weight * (v <= 0.04045 and v / 12.92 or ((v + 0.055) / 1.055) ^ 2.4)
+  end
+  return value
+end
+local function contrast(a,b)
+  a,b=luminance(a),luminance(b)
+  return (math.max(a,b)+0.05)/(math.min(a,b)+0.05)
+end
+for _, group in ipairs({'NonText','SnacksPickerDir','SnacksPickerTotals','SnacksPickerPathHidden','SnacksPickerDimmed','SnacksPickerKeymapRhs','BlinkCmpGhostText','BlinkCmpLabelDetail'}) do
+  local fg=vim.api.nvim_get_hl(0,{name=group,link=false}).fg
+  for _, bg in ipairs({0x0f0f0e,0x191917,0x3a302b}) do
+    assert(contrast(fg,bg)>=4.5, group .. ': insufficient contrast')
+  end
+end
+local thumb=vim.api.nvim_get_hl(0,{name='PmenuThumb'}).bg
+local track=vim.api.nvim_get_hl(0,{name='PmenuSbar'}).bg
+assert(contrast(thumb,track)>=2.8)
+assert(contrast(vim.api.nvim_get_hl(0,{name='FloatBorder'}).fg,0x191917)>=2.4)
+assert(contrast(vim.api.nvim_get_hl(0,{name='SnacksPickerListCursorLine'}).bg,0x0f0f0e)>=1.45)
+color('SnacksIndent','fg','#191917')
+color('SnacksIndentScope','fg','#25231f')
 -- Exercise the real stock Zig syntax, not just hand-picked highlight groups.
 vim.cmd('filetype plugin on')
 vim.cmd('syntax enable')
