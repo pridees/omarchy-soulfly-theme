@@ -2,7 +2,7 @@ local p = require('soulfly.palette')
 local function mode(accent)
   return {
     a = { fg = p.editor_background, bg = accent, gui = 'bold' },
-    b = { fg = p.text, bg = p.tab_active_background },
+    b = { fg = p.accent, bg = p.tab_active_background },
     c = { fg = p.text_muted, bg = p.status_bar_background },
   }
 end
