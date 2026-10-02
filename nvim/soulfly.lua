@@ -48,5 +48,15 @@ return {
       end
     end,
   },
+  {
+    "akinsho/bufferline.nvim",
+    opts = function(_, opts)
+      for _, offset in ipairs(opts.options and opts.options.offsets or {}) do
+        if offset.filetype == "neo-tree" then
+          offset.highlight = "NeoTreeTitleBar"
+        end
+      end
+    end,
+  },
 
 }
