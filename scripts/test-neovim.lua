@@ -17,7 +17,7 @@ for _, g in ipairs({'Keyword','Include','zigVarDecl','zigExecution','@keyword','
 end
 for _, g in ipairs({'Type','@type.builtin','@lsp.type.interface','@lsp.type.class'}) do color(g,'fg','#c792ff') end
 color('Function','fg','#72bfff')
-for _, g in ipairs({'zigProperty','@property','@variable.member','@lsp.type.property','@lsp.type.field'}) do color(g,'fg','#abc5d0') end
+for _, g in ipairs({'zigProperty','@property','@variable.member','@lsp.type.property','@lsp.type.field'}) do color(g,'fg','#e58ea5') end
 color('Comment','fg','#8a8e85')
 color('LspInlayHint','fg','#997d5c')
 for _, kind in ipairs({'Error','Warn','Info','Hint'}) do
@@ -93,11 +93,11 @@ token(2,'echo','#72bfff')
 token(4,'try','#ecc18e')
 token(4,'print','#72bfff')
 token(5,'return','#ecc18e')
-token(7,'command','#abc5d0')
-token(7,'full_path','#abc5d0')
-token(8,'name','#abc5d0')
-token(9,'value','#abc5d0')
-token(10,'value','#abc5d0')
+token(7,'command','#e58ea5')
+token(7,'full_path','#e58ea5')
+token(8,'name','#e58ea5')
+token(9,'value','#e58ea5')
+token(10,'value','#e58ea5')
 token(11,'field','#b5d86d')
 token(11,'name','#8a8e85')
 token(3,'1','#d9976e')
