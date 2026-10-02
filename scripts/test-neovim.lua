@@ -17,6 +17,7 @@ for _, g in ipairs({'Keyword','Include','zigVarDecl','zigExecution','@keyword','
 end
 for _, g in ipairs({'Type','@type.builtin','@lsp.type.interface','@lsp.type.class'}) do color(g,'fg','#c792ff') end
 color('Function','fg','#72bfff')
+for _, g in ipairs({'zigProperty','@property','@variable.member','@lsp.type.property','@lsp.type.field'}) do color(g,'fg','#abc5d0') end
 color('Comment','fg','#8a8e85')
 color('LspInlayHint','fg','#7d817a')
 color('Normal','bg','#090908')
@@ -35,6 +36,11 @@ vim.api.nvim_buf_set_lines(0,0,-1,false,{
   '    try out.print("hello");',
   '    return;',
   '}',
+  'const path = cmd.command.full_path;',
+  'const field = self.name;',
+  'const result = items[0].value;',
+  'const deref = ptr.*.value;',
+  'const text = "obj.field"; // self.name',
 })
 vim.bo.filetype='zig'
 vim.cmd('syntax sync fromstart')
@@ -53,6 +59,13 @@ token(2,'echo','#72bfff')
 token(4,'try','#f49b62')
 token(4,'print','#72bfff')
 token(5,'return','#f49b62')
+token(7,'command','#abc5d0')
+token(7,'full_path','#abc5d0')
+token(8,'name','#abc5d0')
+token(9,'value','#abc5d0')
+token(10,'value','#abc5d0')
+token(11,'field','#b5d86d')
+token(11,'name','#8a8e85')
 vim.cmd.colorscheme('habamax')
 assert(vim.g.colors_name=='habamax')
 vim.cmd.colorscheme('soulfly')
