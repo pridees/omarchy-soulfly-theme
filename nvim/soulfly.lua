@@ -58,5 +58,18 @@ return {
       end
     end,
   },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = function(_, opts)
+      for _, source in ipairs({ "filesystem", "buffers", "git_status" }) do
+        opts[source] = opts[source] or {}
+        opts[source].components = opts[source].components or {}
+        local original = opts[source].components.name
+          or require("neo-tree.sources." .. source .. ".components").name
+          or require("neo-tree.sources.common.components").name
+        opts[source].components.name = require("soulfly.explorer").wrap(original)
+      end
+    end,
+  },
 
 }
