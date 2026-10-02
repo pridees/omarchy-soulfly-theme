@@ -7,10 +7,10 @@ local function mode(accent)
   }
 end
 return {
-  normal = mode(p.syntax['function']),
-  insert = mode(p.syntax.string),
-  visual = mode(p.syntax.type),
-  replace = mode(p.error),
-  command = mode(p.syntax.keyword),
+  normal = mode(p.accent),
+  insert = mode(p.accent),
+  visual = mode(p.accent),
+  replace = mode(p.accent),
+  command = mode(p.accent),
   inactive = { a = {fg=p.text_muted,bg=p.status_bar_background}, b = {fg=p.text_muted,bg=p.status_bar_background}, c = {fg=p.text_muted,bg=p.status_bar_background} },
 }

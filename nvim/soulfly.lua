@@ -33,4 +33,20 @@ return {
       if active() then opts.colorscheme = "soulfly" end
     end,
   },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      local root = opts.sections and opts.sections.lualine_c and opts.sections.lualine_c[1]
+      if type(root) == "table" then
+        local original_color = root.color
+        root.color = function()
+          if vim.g.colors_name == "soulfly" then
+            return { fg = require("soulfly.palette").accent }
+          end
+          return type(original_color) == "function" and original_color() or original_color
+        end
+      end
+    end,
+  },
+
 }
