@@ -13,7 +13,7 @@ local function color(group, field, expected)
   assert(actual == tonumber(expected:sub(2),16), group .. ': ' .. tostring(actual))
 end
 for _, g in ipairs({'Keyword','Include','zigVarDecl','zigExecution','@keyword','@keyword.import','@keyword.operator','@keyword.type'}) do
-  color(g,'fg','#f49b62')
+  color(g,'fg','#ecc18e')
 end
 for _, g in ipairs({'Type','@type.builtin','@lsp.type.interface','@lsp.type.class'}) do color(g,'fg','#c792ff') end
 color('Function','fg','#72bfff')
@@ -67,6 +67,9 @@ vim.api.nvim_buf_set_lines(0,0,-1,false,{
   'const result = items[0].value;',
   'const deref = ptr.*.value;',
   'const text = "obj.field"; // self.name',
+  'var missing: ?u8 = null;',
+  'var raw: u8 = undefined;',
+  'const escaped = "hello\\n";',
 })
 vim.bo.filetype='zig'
 vim.cmd('syntax sync fromstart')
@@ -77,14 +80,14 @@ local function token(row,text,expected)
   local value=vim.fn.synIDattr(id,'fg#')
   assert(value==expected, text .. ': ' .. value .. ' (' .. vim.fn.synIDattr(id,'name') .. ')')
 end
-token(1,'const','#f49b62')
+token(1,'const','#ecc18e')
 token(1,'Command','#c792ff')
-token(1,'@import','#f49b62')
-token(2,'fn','#f49b62')
+token(1,'@import','#ecc18e')
+token(2,'fn','#ecc18e')
 token(2,'echo','#72bfff')
-token(4,'try','#f49b62')
+token(4,'try','#ecc18e')
 token(4,'print','#72bfff')
-token(5,'return','#f49b62')
+token(5,'return','#ecc18e')
 token(7,'command','#abc5d0')
 token(7,'full_path','#abc5d0')
 token(8,'name','#abc5d0')
@@ -92,6 +95,10 @@ token(9,'value','#abc5d0')
 token(10,'value','#abc5d0')
 token(11,'field','#b5d86d')
 token(11,'name','#8a8e85')
+token(3,'1','#d9976e')
+token(12,'null','#d9976e')
+token(13,'undefined','#d9976e')
+token(14,'\\n','#d9976e')
 vim.cmd.colorscheme('habamax')
 assert(vim.g.colors_name=='habamax')
 vim.cmd.colorscheme('soulfly')

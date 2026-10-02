@@ -233,7 +233,7 @@
             "font_weight": 300
           },
           "keyword": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": null
           },
@@ -253,7 +253,7 @@
             "font_weight": null
           },
           "number": {
-            "color": "#efc16e",
+            "color": "#d9976e",
             "font_style": null,
             "font_weight": null
           },
@@ -313,7 +313,7 @@
             "font_weight": null
           },
           "string.escape": {
-            "color": "#e2bd78",
+            "color": "#d9976e",
             "font_style": null,
             "font_weight": null
           },
@@ -408,32 +408,32 @@
             "font_weight": null
           },
           "keyword.declaration": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": null
           },
           "keyword.import": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": null
           },
           "keyword.control": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": 500
           },
           "keyword.operator": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": null
           },
           "keyword.operator.regex": {
-            "color": "#f49b62",
+            "color": "#ECC18E",
             "font_style": null,
             "font_weight": null
           },
           "constant.builtin": {
-            "color": "#efc16e",
+            "color": "#d9976e",
             "font_style": null,
             "font_weight": null
           },

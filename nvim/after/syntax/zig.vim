@@ -10,3 +10,5 @@ highlight default link zigTypeName Type
 highlight default link zigFunction Function
 highlight default link zigImport Include
 highlight default link zigProperty Identifier
+syntax keyword zigUndefined undefined
+highlight default link zigUndefined Constant
